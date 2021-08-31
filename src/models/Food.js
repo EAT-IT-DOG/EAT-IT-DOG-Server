@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-const writingSchema = new mongoose.Schema({
+const foodSchema = new mongoose.Schema({
   foodName: { type: String, required: true },
-  safetyLv: { type: Number, required: true },
+  safetyLevel: { type: Number, required: true },
   safetyGrade: { type: String, required: true },
   edible: { type: String, required: true },
   sympton: { type: String },
@@ -10,3 +10,7 @@ const writingSchema = new mongoose.Schema({
   ingredient: { type: String },
   barcodeNumber: { type: Number, required: true },
 });
+
+const Food = mongoose.model("Food", foodSchema);
+
+export default Food;
