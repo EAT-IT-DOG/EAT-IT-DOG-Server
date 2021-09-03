@@ -5,7 +5,7 @@ const foodSchema = new mongoose.Schema({
   safetyLevel: { type: Number, required: true },
   safetyGrade: { type: String, required: true },
   edible: { type: String, required: true },
-  sympton: { type: String },
+  symptom: { type: String },
   feedMethod: { type: String },
   ingredient: { type: String },
   barcodeNumber: { type: Number, required: true },
