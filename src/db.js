@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-mongoose.connect(process.env.DB_URL, {
+mongoose.connect("mongodb://127.0.0.1:27017/eatitdog", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
