@@ -8,7 +8,7 @@ const foodSchema = new mongoose.Schema({
   symptom: [{ type: String }],
   feedMethod: [{ type: String }],
   ingredient: [{ type: String }],
-  barcodeNumber: { type: Number, required: true },
+  barcodeNumber: [{ type: Number, required: true, unique: true }],
 });
 
 const Food = mongoose.model("Food", foodSchema);
