@@ -13,7 +13,7 @@ export const getByBarcode = async (req, res) => {
 };
 
 export const getByFoodname = async (req, res) => {
-  const foodname = decodeURI(req.params.id);
+  const foodname = decodeURI(req.params.foodname);
   const food = await Food.findOne({ foodName: foodname }).exec();
   if (!food) {
     return res.status(404).json({ error: "Not found.", status: 404 });
@@ -34,7 +34,14 @@ export const postFood = async (req, res) => {
     feedMethod,
     ingredient,
     barcodeNumber,
+    password,
   } = req.body;
+  if (password !== process.env.POST_PW) {
+    return res.status(400).json({
+      status: 400,
+      message: "Post Password is incorrect.",
+    });
+  }
   try {
     await Food.create({
       foodName,
