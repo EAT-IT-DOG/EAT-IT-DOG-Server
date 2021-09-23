@@ -24,6 +24,17 @@ export const getByFoodname = async (req, res) => {
   });
 };
 
+export const getFoodList = async (req, res) => {
+  let foods = [];
+  const foodObjects = await Food.find({});
+  for (var i = 0; foodObjects[i] != null; i++) {
+    foods.push(foodObjects[i].foodName);
+  }
+  return res.status(200).json({
+    foods,
+  });
+};
+
 export const postFood = async (req, res) => {
   const {
     foodName,
