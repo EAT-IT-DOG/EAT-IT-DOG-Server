@@ -1,9 +1,11 @@
 import Food from "../models/Food";
+import { mailer } from "./mailer";
 
 export const getByBarcode = async (req, res) => {
   const barcodenum = req.params.barcodenum;
   const food = await Food.findOne({ barcodeNumber: barcodenum }).exec();
   if (!food) {
+    mailer(barcodenum);
     return res.status(404).json({ error: "Not found.", status: 404 });
   }
   return res.status(200).json({
@@ -16,6 +18,7 @@ export const getByFoodname = async (req, res) => {
   const foodname = decodeURI(req.params.foodname);
   const food = await Food.findOne({ foodName: foodname }).exec();
   if (!food) {
+    mailer(foodname);
     return res.status(404).json({ error: "Not found.", status: 404 });
   }
   return res.status(200).json({
@@ -92,7 +95,6 @@ export const postFood = async (req, res) => {
       message: "Succeed to add new food",
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       status: 400,
       error: "Registration failed, Please try again.",
