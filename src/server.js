@@ -3,7 +3,9 @@ import morgan from "morgan";
 import {
   getByBarcode,
   getByFoodname,
+  getDislike,
   getFoodList,
+  getLike,
   postFood,
 } from "./controllers/foodController";
 
@@ -19,6 +21,10 @@ app.get("/barcodes/:barcodenum", getByBarcode);
 
 // 음식 이름으로 음식 조회, 객체 반환
 app.get("/search/:foodname", getByFoodname);
+
+// 음식에 따라 도움이 된 여부
+app.get("/like/:id", getLike);
+app.get("/dislike/:id", getDislike);
 
 // 음식 이름 리스트 조회
 app.get("/list", getFoodList);

@@ -1,11 +1,11 @@
 import Food from "../models/Food";
-import { mailer } from "./mailer";
+import { notFoundMailer, postMailer } from "./mailer";
 
 export const getByBarcode = async (req, res) => {
   const barcodenum = req.params.barcodenum;
   const food = await Food.findOne({ barcodeNumber: barcodenum }).exec();
   if (!food) {
-    mailer(barcodenum);
+    notFoundMailer(barcodenum);
     return res.status(404).json({ error: "Not found.", status: 404 });
   }
   return res.status(200).json({
@@ -18,7 +18,7 @@ export const getByFoodname = async (req, res) => {
   const foodname = decodeURI(req.params.foodname);
   const food = await Food.findOne({ foodName: foodname }).exec();
   if (!food) {
-    mailer(foodname);
+    notFoundMailer(foodname);
     return res.status(404).json({ error: "Not found.", status: 404 });
   }
   return res.status(200).json({
@@ -36,6 +36,22 @@ export const getFoodList = async (req, res) => {
   return res.status(200).json({
     foods,
   });
+};
+
+export const getLike = async (req, res) => {
+  const { id } = req.params;
+  const food = await Food.find({ _id: id });
+  if (!food) {
+    return res.status(404).json({ error: "Not found.", status: 404 });
+  }
+};
+
+export const getDislike = async (req, res) => {
+  const { id } = req.params;
+  const food = await Food.find({ _id: id });
+  if (!food) {
+    return res.status(404).json({ error: "Not found.", status: 404 });
+  }
 };
 
 export const postFood = async (req, res) => {
@@ -90,6 +106,16 @@ export const postFood = async (req, res) => {
       ingredient,
       barcodeNumber,
     });
+    postMailer(
+      foodName,
+      safetyLevel,
+      safetyGrade,
+      edible,
+      symptom,
+      feedMethod,
+      ingredient,
+      barcodeNumber
+    );
     return res.status(200).json({
       status: 200,
       message: "Succeed to add new food",
