@@ -1,5 +1,6 @@
 import Food from "../models/Food";
 import { notFoundMailer, postMailer } from "./mailer";
+const spawn = require("child_process").spawn;
 
 export const getByBarcode = async (req, res) => {
   const barcodenum = req.params.barcodenum;
@@ -52,6 +53,24 @@ export const getDislike = async (req, res) => {
   if (!food) {
     return res.status(404).json({ error: "Not found.", status: 404 });
   }
+};
+
+export const postAnimalHospital = async (req, res) => {
+  const { latitude, longitude } = req.body;
+
+  const result = spawn("scrapHospital.py", [
+    String(latitude),
+    String(longitude),
+  ]);
+
+  result.stdout.on("data", (result) => {
+    console.log(result.toString());
+  });
+
+  return res.status(200).json({
+    status: 200,
+    message: "Succeed to find nearby animal hospital.",
+  });
 };
 
 export const postFood = async (req, res) => {

@@ -7,6 +7,7 @@ import {
   getFoodList,
   getLike,
   postFood,
+  postAnimalHospital,
 } from "./controllers/foodController";
 
 const app = express();
@@ -28,6 +29,9 @@ app.get("/dislike/:id", getDislike);
 
 // 음식 이름 리스트 조회
 app.get("/list", getFoodList);
+
+// 인근 동물병원 조회
+app.post("/hospital", postAnimalHospital);
 
 // 음식 등록
 app.post("/foods", postFood);
