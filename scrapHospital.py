@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-
 from selenium import webdriver
-import time
 import sys
+import base64
 
 options = webdriver.ChromeOptions()
 
@@ -10,35 +8,20 @@ options.add_argument("headless")
 
 driver = webdriver.Chrome('chromedriver.exe', options=options)
 
-driver.get('https://www.google.com/maps')
+driver.get('https://www.google.com/maps/search/%EB%8F%99%EB%AC%BC%EB%B3%91%EC%9B%90/@' + sys.argv[1] +',' + sys.argv[2] + ',11z')
 
 driver.implicitly_wait(3)
 
-myLocation = sys.argv[1] + sys.argv[2]
-
-driver.find_element_by_xpath('//*[@id="searchboxinput"]').send_keys(myLocation)
-driver.find_element_by_xpath('//*[@id="searchbox-searchbutton"]').click()
-driver.find_element_by_xpath('//*[@id="searchboxinput"]').clear()
-driver.find_element_by_xpath('//*[@id="searchboxinput"]').send_keys('동물병원')
-driver.find_element_by_xpath('//*[@id="searchbox-searchbutton"]').click()
-
-
 for i in range(1, 11, 2):
     try:
-        driver.find_element_by_xpath(f'//*[@id="pane"]/div/div[1]/div/div/div[4]/div[1]/div['+ str(i) +']/div/a').click()#리스트 검색
+        driver.find_element_by_xpath(f'//*[@id="pane"]/div/div[1]/div/div/div[4]/div[1]/div[' + str(i) + ']/div/a').click()
     except:
-        print("\nERROR\n")
+        print("ERROR")
         continue
-    try:
-        name = driver.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[1]/div[1]/h1/span[1]').text # 이름
-    except:
-        print("\nERROR\n")
-        continue
-    address = driver.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[7]/div[1]/button/div[1]/div[2]/div[1]').text #주소
-    driver.find_element_by_xpath('//*[@id="omnibox-singlebox"]/div[1]/div[1]/button').click() # 뒤로가기
-    print("이름:" + name + "\n주소:" + address + "\n")
-
-# scroll_list = driver.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[4]/div[1]')
-# driver.execute_script("arguments[0].scrollTo(0, 500);", scroll_list)
+    name = driver.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[2]/div[1]/div[1]/div[1]/h1/span[1]').text # 이름
+    address = driver.find_element_by_xpath('//*[@id="pane"]/div/div[1]/div/div/div[7]/div[1]/button/div[1]/div[2]/div[1]').text
+    driver.find_element_by_xpath('//*[@id="omnibox-singlebox"]/div[1]/div[1]/button').click()
+    text = "이름:" + name + "\n주소:" + address + "\n"
+    print(base64.b64encode(text.encode('utf-8')))
 
 driver.quit()

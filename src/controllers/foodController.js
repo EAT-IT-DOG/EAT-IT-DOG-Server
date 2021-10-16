@@ -1,6 +1,6 @@
 import Food from "../models/Food";
 import { notFoundMailer, postMailer } from "./mailer";
-const spawn = require("child_process").spawn;
+import { PythonShell } from "python-shell";
 
 export const getByBarcode = async (req, res) => {
   const barcodenum = req.params.barcodenum;
@@ -58,13 +58,22 @@ export const getDislike = async (req, res) => {
 export const postAnimalHospital = async (req, res) => {
   const { latitude, longitude } = req.body;
 
-  const result = spawn("scrapHospital.py", [
-    String(latitude),
-    String(longitude),
-  ]);
+  let options = {
+    mode: "text",
+    scriptPath: "./",
+    pythonOptions: ["-u"],
+    args: [String(latitude), String(longitude)],
+    encoding: "utf8",
+  };
 
-  result.stdout.on("data", (result) => {
-    console.log(result.toString());
+  PythonShell.run("scrapHospital.py", options, function (err, results) {
+    if (err) {
+      return res.status(400).json({ error: "Cannot find", status: 400 });
+    }
+    let data = results[0].replace(`b\'`, "").replace(`\'`, "");
+    let buff = Buffer.from(data, "base64");
+    let text = buff.toString("utf-8");
+    console.log(text);
   });
 
   return res.status(200).json({
