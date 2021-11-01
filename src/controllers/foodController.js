@@ -82,6 +82,14 @@ export const postAnimalHospital = async (req, res) => {
   });
 };
 
+export const getFoodDetails = async (req, res) => {
+  const foods = await Food.find({});
+  return res.status(200).json({
+    status: 200,
+    foods,
+  });
+};
+
 export const postFood = async (req, res) => {
   const {
     foodName,
