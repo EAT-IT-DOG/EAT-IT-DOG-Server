@@ -1,15 +1,5 @@
 import express from "express";
 import morgan from "morgan";
-import {
-  getByBarcode,
-  getByFoodname,
-  getDislike,
-  getFoodList,
-  getLike,
-  postFood,
-  postAnimalHospital,
-  getFoodDetails,
-} from "./controllers/foodController";
 import rootRouter from "./routers/rootRouter";
 
 const app = express();

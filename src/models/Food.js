@@ -9,6 +9,8 @@ const foodSchema = new mongoose.Schema({
   feedMethod: [{ type: String }],
   ingredient: [{ type: String }],
   barcodeNumber: [{ type: Number, required: true }],
+  like: { type: Number, required: true, default: 0 },
+  dislike: { type: Number, required: true, default: 0 },
 });
 
 const Food = mongoose.model("Food", foodSchema);
