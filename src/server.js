@@ -10,6 +10,7 @@ import {
   postAnimalHospital,
   getFoodDetails,
 } from "./controllers/foodController";
+import rootRouter from "./routers/rootRouter";
 
 const app = express();
 const logger = morgan("dev");
@@ -18,25 +19,6 @@ app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 바코드 번호로 음식 조회, 객체 반환
-app.get("/barcodes/:barcodenum", getByBarcode);
-
-// 음식 이름으로 음식 조회, 객체 반환
-app.get("/search/:foodname", getByFoodname);
-
-// 음식에 따라 도움이 된 여부
-app.get("/like/:id", getLike);
-app.get("/dislike/:id", getDislike);
-
-// 음식 이름 리스트 조회
-app.get("/list", getFoodList);
-
-app.get("/detail", getFoodDetails);
-
-// 인근 동물병원 조회
-app.post("/hospital", postAnimalHospital);
-
-// 음식 등록
-app.post("/foods", postFood);
+app.use("/", rootRouter);
 
 export default app;
