@@ -7,7 +7,7 @@
     "url": "git+https://github.com/EAT-IT-DOG/EAT-IT-DOG-Server.git"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node src/init.js"
+    "start": "nodemon --exec babel-node src/init.js"
   },
   "author": "whitebear<woojs0505@naver.com>",
   "license": "MIT",
